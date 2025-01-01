@@ -1,9 +1,24 @@
 'use client';
 import React, { useState } from "react";
-import { HoveredLink, Menu, MenuItem, ProductItem } from "./ui/navbar-menu";
-import { cn } from "@/lib/utils";
+import {  Menu, MenuItem,} from "./ui/navbar-menu";
+import { cn } from "@/utils/cn";
 import Link from "next/link";
 
+type HoveredLinkProps = React.PropsWithChildren<
+  React.HTMLAttributes<HTMLAnchorElement> & { href: string }
+>;
+
+const HoveredLink = ({ children, href, ...rest }: HoveredLinkProps) => {
+  return (
+    <Link
+      href={href}
+      {...rest}
+      className="text-neutral-700 dark:text-neutral-200 hover:text-black"
+    >
+      {children}
+    </Link>
+  );
+};
 
 function Navbar({ className }: { className?: string }) {
     const [active, setActive] = useState<string | null>(null);
@@ -17,7 +32,20 @@ function Navbar({ className }: { className?: string }) {
                 
                 </MenuItem>
                 </Link>
-
+                <MenuItem setActive={setActive} active={active} item="Our Courese">
+               <div className="flex flex-col space-y-4 text-sm">
+               <HoveredLink href="/courses">All courses</HoveredLink>
+               <HoveredLink href="/courses">Basic Music Theory</HoveredLink>
+               <HoveredLink href="/courses">Advanced Composition</HoveredLink>
+               <HoveredLink href="/courses">Songwriting</HoveredLink>
+               <HoveredLink href="/courses">Music Production</HoveredLink>
+               </div>
+                </MenuItem>
+                <Link href={"/contact"}>
+                <MenuItem setActive={setActive} active={active} item="Contact Us">
+                
+                </MenuItem>
+                </Link>
             </Menu>
         </div>
     )
